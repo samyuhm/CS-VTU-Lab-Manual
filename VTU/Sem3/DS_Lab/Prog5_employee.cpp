@@ -46,17 +46,17 @@ void employee::display()
 
 	cout.width(5);
 
-	cout<<id;
+	cout<<"id: "<<id;
 	cout.width(15);
-	cout<<name;
+	cout<<"name:"<<name;
 	cout.width(10);
-	cout<<basic;
+	cout<<"basic:"<<basic;
 	cout.width(10);
-	cout<<it;
+	cout<<"it:"<<it;
 	cout.width(10);
-	cout<<da;
+	cout<<"da:"<<da;
 	cout.width(10);
-	cout<<netsal;
+	cout<<"netsal:"<<netsal;
 
 }
 
@@ -84,39 +84,23 @@ int main()
 
 	for(i=0;i<n;i++)
 	{
-		cout<<"Enter the details of the Employee "<<i+1<<" : "<<endl;
-		emp[i].getdata();
-
-		for(j=0;j<i;j++)
-		{
-			if( emp[i].getnum() == emp[j].getnum() )
-			{
-				cout<<"\n\nDuplicate Id Entered !\n\n";
-				i--;
-			}
-		}
-		
-	}
-
-
-
-	for(i=0;i<n;i++)
-		emp[i].cal_sal();
-
-	cout<<"    ID \t\t NAME \t BASIC \t   IT \t  ALLOWANCES \t   NET \n";
-	
-	for(i=0;i<n;i++)
-	{
-		emp[i].display();
-		cout<<endl;
-	}
-
-	cout<<endl<<endl;
+		  emp[i].getdata();
+                emp[i].cal_sal();
+                emp[i].display();
+}
+return 0;
 }
 
 
 		
-	
+output:
+
+Enter the number of Employees : 1
+ ID : 12
+ Name : sam
+ Basic Salary : 10000
+ 
+   id:12       name:sam     basic:10000      it:6690     da:12300     netsal:15610
 
 
 
