@@ -5,77 +5,105 @@ arithmetic expression to postfix expression and then to print both the expressio
 expression consists of single character operands and the binary operators + (plus), - 
 (minus), * (multiply) and / (divide). */
 
+  
 #include <stdio.h>
 #include <stdlib.h>
-#define MAX 20
 
-int top=0;
+int top=-1,length,iinf=0,ipostf=0;
 int precd(char);
 char pop();
+void inf_to_postf(char[],char[]);
 void push(char);
-char infix[MAX],pf[MAX],stk[MAX];
+char infix[20],postf[20],stk[20],sym;
 
 int main()
 {
-    char ch;
-    int i=0,j=0;
 
     printf("\nConversion of infix to postfix expression");
     printf("\nEnter the infix expression to be converted:");
     gets(infix);
-
+    inf_to_postf(infix,postf);
+    printf("\nEntered  infix expression is:%s ",infix);
+    printf("\nConverted  infix to postfix expression is : %s \n",postf);
+}
+     void inf_to_postf(char infix[],char postf[])
+{
+    char temp;
     push('#');
-
-    for(i=0;i<strlen(infix);i++)
-    {
-        ch=infix[i];
-
-        if(isalnum(ch))
-                pf[j++]=ch;
-
-        else if(ch=='(')
-                push(ch);
-
-        else if(ch==')')
-        {
-                while(stk[top]!='(')
-                      pf[j++]=pop();
-                pop();
-        }
-
-        else
-        {
-                while(precd((stk[top]))>=precd(ch))
-                        pf[j++]=pop();
-                push(ch);
-        }
-    }
-
-    while(stk[top]!='#')
-            pf[j++]=pop();
-
-    pf[j]='\0';
-
-    printf("\nThe postfix expression for %s is %s",infix,pf);
-
-    return 0;
-}
-int precd(char e)
+    while(infix[iinf]!='\0')
 {
-    switch(e)
-    {
+       sym=infix[iinf];
+       switch(sym)
+{
+      
+        case '(':push(sym);
+                 break;
+        
+        case ')':temp=pop();
+                 while(sym!='(')
+                 {
+                  postf[ipostf++]=temp;
+                  temp=pop();
+                 }
+                  break;
+
         case '+':
-        case '-': return 1;
+        case '-': 
         case '*':
-        case '/':return 2;
-        case '#':return 0;
+        case '/':
+                  while(precd(stk[top])>=precd(sym))
+                  {
+                     temp=pop();
+                      postf[ipostf++]=temp;
+                    }
+                  push(sym);
+                    break;
+        default: postf[ipostf++]=sym;
     }
+iinf++;
 }
-void push(char ch)
+while(top>0)
 {
-    stk[++top]=ch;
+ 
+     temp=pop();
+     postf[ipostf++]=temp;
+}
+}
+void push(char x)
+{
+    stk[++top]=x;
 }
 char pop()
 {
-         return stk[top--];
+int x;
+x=stk[top];    
+top--;     
+return x;
 }
+
+int precd(char x)
+{
+ int p;
+switch(x)
+{
+
+ case '+':
+        case '-': p=1;
+                  break;
+        case '*':
+        case '/': p=2;break;
+        case '(':
+        case ')':p=0;break;
+        case'#': p=-1;break;
+}
+return p;
+}
+
+output:
+
+Conversion of infix to postfix expression
+Enter the infix expression to be converted:a+b-c*d/e
+
+Entered  infix expression is:a+b-c*d/e 
+Converted  infix to postfix expression is : ab+cd*e/- 
+
